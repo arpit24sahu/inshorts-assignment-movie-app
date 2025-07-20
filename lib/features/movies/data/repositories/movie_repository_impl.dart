@@ -12,21 +12,17 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<Movie>> getTrendingMovies() async {
     try {
-      // Check if cache is valid
       if (_localDataSource.isCacheValid('trending_cache_time')) {
         final cachedMovies = await _localDataSource.getTrendingMovies();
         if (cachedMovies.isNotEmpty) return cachedMovies;
       }
 
-      // Fetch from remote
       final remoteMovies = await _remoteDataSource.getTrendingMovies();
-      
-      // Cache the results
+
       await _localDataSource.saveTrendingMovies(remoteMovies);
       
       return remoteMovies;
     } catch (e) {
-      // Fallback to cached data
       return await _localDataSource.getTrendingMovies();
     }
   }
@@ -34,21 +30,17 @@ class MovieRepositoryImpl implements MovieRepository {
   @override
   Future<List<Movie>> getNowPlayingMovies() async {
     try {
-      // Check if cache is valid
       if (_localDataSource.isCacheValid('now_playing_cache_time')) {
         final cachedMovies = await _localDataSource.getNowPlayingMovies();
         if (cachedMovies.isNotEmpty) return cachedMovies;
       }
 
-      // Fetch from remote
       final remoteMovies = await _remoteDataSource.getNowPlayingMovies();
-      
-      // Cache the results
+
       await _localDataSource.saveNowPlayingMovies(remoteMovies);
       
       return remoteMovies;
     } catch (e) {
-      // Fallback to cached data
       return await _localDataSource.getNowPlayingMovies();
     }
   }
@@ -58,7 +50,6 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       return await _remoteDataSource.searchMovies(query);
     } catch (e) {
-      // Return empty list if search fails
       return [];
     }
   }

@@ -47,6 +47,7 @@ class MovieSection extends StatelessWidget {
 
   Widget _buildLoadingShimmer() {
     return ListView.builder(
+      key: ValueKey("shimmer_list"),
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(
         horizontal: AppConstants.defaultPadding,

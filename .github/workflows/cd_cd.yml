@@ -1,0 +1,46 @@
+name: Inshorts Movie App CI CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create .env file if missing
+        run: |
+          if [ ! -f .env ]; then
+            touch .env
+          fi
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.32.7
+
+      - name: Verify Flutter and Dart version
+        run: |
+          flutter --version
+          dart --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+#      # Correct usage for building an APK (should be a run command, not uses)
+#      - name: Build APK
+#        run: flutter build apk --release
+#
+#      # Correct usage for building iOS (should be a run command, not uses)
+#      - name: Build iOS
+#        if: runner.os == 'macOS'
+#        run: flutter build ios --release

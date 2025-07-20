@@ -1,10 +1,10 @@
 import '../entities/movie.dart';
 import '../repositories/movie_repository.dart';
 
-class SaveMovie {
+class SaveMovieUseCase {
   final MovieRepository repository;
 
-  SaveMovie(this.repository);
+  SaveMovieUseCase(this.repository);
 
   Future<void> call(Movie movie) async {
     await repository.saveMovie(movie);

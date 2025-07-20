@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
-
 import '../models/movie_model.dart';
 import '../../domain/entities/movie.dart';
 

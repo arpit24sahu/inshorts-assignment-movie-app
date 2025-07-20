@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:app_links/app_links.dart';
 
 import 'core/di/injection.dart';
 import 'core/common/theme.dart';
@@ -22,8 +23,42 @@ void main() async {
   runApp(const MoviesApp());
 }
 
-class MoviesApp extends StatelessWidget {
+class MoviesApp extends StatefulWidget {
   const MoviesApp({super.key});
+
+  @override
+  State<MoviesApp> createState() => _MoviesAppState();
+}
+
+class _MoviesAppState extends State<MoviesApp> {
+  late final AppLinks _appLinks;
+
+  @override
+  void initState() {
+    super.initState();
+    _appLinks = AppLinks();
+    _listenToDeepLinks();
+  }
+
+  void _listenToDeepLinks() {
+    _appLinks.uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        _handleIncomingUri(uri);
+      }
+    }, onError: (err) {
+      debugPrint("Error handling deep link: $err");
+    });
+
+    _appLinks.getInitialLink().then((uri) {
+      if (uri != null) {
+        _handleIncomingUri(uri);
+      }
+    });
+  }
+  void _handleIncomingUri(Uri uri) {
+    final router = getIt<AppRouter>().config;
+    router.go(uri.path);
+  }
 
   @override
   Widget build(BuildContext context) {

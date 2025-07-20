@@ -1,22 +1,19 @@
 import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
+import 'package:movie/core/common/constants.dart';
 import 'package:movie/features/movies/presentation/bloc/search_event.dart';
 import 'package:movie/features/movies/presentation/bloc/search_state.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../domain/entities/movie.dart';
 import '../../domain/use_cases/search_movies.dart';
 
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final SearchMovies searchMovies;
+  final SearchMoviesUseCase searchMovies;
 
   SearchBloc({required this.searchMovies}) : super(const SearchState()) {
     on<SearchMoviesEvent>(
       _onSearchMovies,
-      transformer: _debounce(const Duration(milliseconds: 400)),
+      transformer: _debounce(AppConstants.searchDebounceDelay),
     );
     on<ClearSearchEvent>(_onClearSearch);
   }
@@ -29,8 +26,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
   ) async {
     if (event.query.isEmpty) {
-      emit(
-          state.copyWith(movies: [], isLoading: false, query: '', error: null));
+      emit(state.copyWith(movies: [], isLoading: false, query: '', error: null));
       return;
     }
 
@@ -40,8 +36,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       emit(state.copyWith(
         movies: movies,
         isLoading: false,
-          query: event.query,
-          error: null));
+        query: event.query,
+        error: null));
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,

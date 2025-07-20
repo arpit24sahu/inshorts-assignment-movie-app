@@ -58,9 +58,11 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
     if (widget.movie == null) return;
 
     final shareUrl = '${AppConstants.movieDeepLinkPrefix}${widget.movieId}';
-    Share.share(
-      'Check out this movie: ${widget.movie!.title}\n$shareUrl',
-      subject: widget.movie!.title,
+    SharePlus.instance.share(
+      ShareParams(
+        text: 'Check out this movie: ${widget.movie!.title}\n$shareUrl',
+        subject: widget.movie!.title,
+      ),
     );
   }
 
@@ -127,7 +129,6 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Poster
                       ClipRRect(
                         borderRadius: BorderRadius.circular(AppConstants.borderRadius),
                         child: SizedBox(
@@ -150,8 +151,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                         ),
                       ),
                       const SizedBox(width: AppConstants.defaultPadding),
-                      
-                      // Movie Info
+
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,8 +206,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                   ),
                   
                   const SizedBox(height: AppConstants.largePadding),
-                  
-                  // Overview
+
                   if (movie.overview.isNotEmpty) ...[
                     Text(
                       'Overview',
@@ -220,8 +219,7 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                     ),
                     const SizedBox(height: AppConstants.largePadding),
                   ],
-                  
-                  // Additional Info
+
                   _buildInfoSection(context, movie),
                 ],
               ),

@@ -4,11 +4,12 @@ import '../../../../core/common/constants.dart';
 import 'shimmer_widget.dart';
 
 class LoadingGrid extends StatelessWidget {
-  const LoadingGrid({super.key});
+  const  LoadingGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      shrinkWrap: true,
       padding: const EdgeInsets.all(AppConstants.defaultPadding),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

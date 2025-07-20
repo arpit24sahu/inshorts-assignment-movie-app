@@ -1,9 +1,9 @@
 import '../repositories/movie_repository.dart';
 
-class RemoveMovie {
+class RemoveMovieUseCase {
   final MovieRepository repository;
 
-  RemoveMovie(this.repository);
+  RemoveMovieUseCase(this.repository);
 
   Future<void> call(int movieId) async {
     await repository.removeMovie(movieId);

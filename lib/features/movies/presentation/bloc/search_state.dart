@@ -1,5 +1,3 @@
-
-// State
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/movie.dart';

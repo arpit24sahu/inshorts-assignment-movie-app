@@ -72,7 +72,6 @@ class _SavedPageState extends State<SavedPage> {
                   );
                 }
 
-                // Filter movies based on search query
                 _filteredMovies = _searchQuery.isEmpty
                     ? state.savedMovies
                     : state.savedMovies

@@ -5,22 +5,16 @@ class AppConstants {
   static const String baseUrl = 'https://api.themoviedb.org/3';
   static const String imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   static const String originalImageBaseUrl = 'https://image.tmdb.org/t/p/original';
-  
-  // Cache settings
+
   static const Duration cacheValidityDuration = Duration(hours: 4);
-  
-  // Database
+  static const Duration searchDebounceDelay = Duration(milliseconds: 1000);
+
   static const String moviesBoxName = 'movies_box';
   static const String savedMoviesBoxName = 'saved_movies_box';
   static const String cacheBoxName = 'cache_box';
-  
-  // Search
-  static const Duration searchDebounceDelay = Duration(milliseconds: 800);
-  
-  // Deep linking
-  static const String movieDeepLinkPrefix = 'moviesapp://movie/';
-  
-  // UI
+
+  static const String movieDeepLinkPrefix = 'inshortsmovie://movie/';
+
   static const double defaultPadding = 16.0;
   static const double smallPadding = 8.0;
   static const double largePadding = 24.0;

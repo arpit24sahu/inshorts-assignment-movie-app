@@ -11,11 +11,11 @@ import 'movies_event.dart';
 import 'movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
-  final GetTrendingMovies getTrendingMovies;
-  final GetNowPlayingMovies getNowPlayingMovies;
-  final GetSavedMovies getSavedMovies;
-  final SaveMovie saveMovie;
-  final RemoveMovie removeMovie;
+  final GetTrendingMoviesUseCase getTrendingMovies;
+  final GetNowPlayingMoviesUseCase getNowPlayingMovies;
+  final GetSavedMoviesUseCase getSavedMovies;
+  final SaveMovieUseCase saveMovie;
+  final RemoveMovieUseCase removeMovie;
 
   MoviesBloc({
     required this.getTrendingMovies,
@@ -130,9 +130,9 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       ]);
 
       emit(state.copyWith(
-        trendingMovies: futures[0] as List<Movie>,
-        nowPlayingMovies: futures[1] as List<Movie>,
-        savedMovies: futures[2] as List<Movie>,
+        trendingMovies: futures[0],
+        nowPlayingMovies: futures[1],
+        savedMovies: futures[2],
         isLoadingTrending: false,
         isLoadingNowPlaying: false,
         isLoadingSaved: false,

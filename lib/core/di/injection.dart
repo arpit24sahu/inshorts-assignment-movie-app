@@ -23,7 +23,6 @@ final getIt = GetIt.instance;
 
 @InjectableInit()
 Future<void> configureDependencies() async {
-  // Register Dio
   final dio = Dio();
   dio.interceptors.add(PrettyDioLogger(
     requestHeader: true,
@@ -38,8 +37,7 @@ Future<void> configureDependencies() async {
   dio.options.queryParameters = {'api_key': AppConstants.apiKey};
   
   getIt.registerSingleton<Dio>(dio);
-  
-  // Register Hive boxes
+
   final moviesBox = await Hive.openBox(AppConstants.moviesBoxName);
   final savedMoviesBox = await Hive.openBox(AppConstants.savedMoviesBoxName);
   final cacheBox = await Hive.openBox(AppConstants.cacheBoxName);
@@ -47,11 +45,9 @@ Future<void> configureDependencies() async {
   getIt.registerSingleton<Box>(moviesBox, instanceName: 'moviesBox');
   getIt.registerSingleton<Box>(savedMoviesBox, instanceName: 'savedMoviesBox');
   getIt.registerSingleton<Box>(cacheBox, instanceName: 'cacheBox');
-  
-  // Register navigation
+
   getIt.registerSingleton<AppRouter>(AppRouter());
-  
-  // Register data sources
+
   getIt.registerLazySingleton<MovieRemoteDataSource>(
     () => MovieRemoteDataSourceImpl(getIt<Dio>()),
   );
@@ -63,35 +59,32 @@ Future<void> configureDependencies() async {
       getIt<Box>(instanceName: 'cacheBox'),
     ),
   );
-  
-  // Register repository
+
   getIt.registerLazySingleton<MovieRepository>(
     () => MovieRepositoryImpl(
       getIt<MovieRemoteDataSource>(),
       getIt<MovieLocalDataSource>(),
     ),
   );
-  
-  // Register use cases
-  getIt.registerLazySingleton(() => GetTrendingMovies(getIt<MovieRepository>()));
-  getIt.registerLazySingleton(() => GetNowPlayingMovies(getIt<MovieRepository>()));
-  getIt.registerLazySingleton(() => GetSavedMovies(getIt<MovieRepository>()));
-  getIt.registerLazySingleton(() => SaveMovie(getIt<MovieRepository>()));
-  getIt.registerLazySingleton(() => RemoveMovie(getIt<MovieRepository>()));
-  getIt.registerLazySingleton(() => SearchMovies(getIt<MovieRepository>()));
-  
-  // Register blocs
+
+  getIt.registerLazySingleton(() => GetTrendingMoviesUseCase(getIt<MovieRepository>()));
+  getIt.registerLazySingleton(() => GetNowPlayingMoviesUseCase(getIt<MovieRepository>()));
+  getIt.registerLazySingleton(() => GetSavedMoviesUseCase(getIt<MovieRepository>()));
+  getIt.registerLazySingleton(() => SaveMovieUseCase(getIt<MovieRepository>()));
+  getIt.registerLazySingleton(() => RemoveMovieUseCase(getIt<MovieRepository>()));
+  getIt.registerLazySingleton(() => SearchMoviesUseCase(getIt<MovieRepository>()));
+
   getIt.registerFactory(
     () => MoviesBloc(
-      getTrendingMovies: getIt<GetTrendingMovies>(),
-      getNowPlayingMovies: getIt<GetNowPlayingMovies>(),
-      getSavedMovies: getIt<GetSavedMovies>(),
-      saveMovie: getIt<SaveMovie>(),
-      removeMovie: getIt<RemoveMovie>(),
+      getTrendingMovies: getIt<GetTrendingMoviesUseCase>(),
+      getNowPlayingMovies: getIt<GetNowPlayingMoviesUseCase>(),
+      getSavedMovies: getIt<GetSavedMoviesUseCase>(),
+      saveMovie: getIt<SaveMovieUseCase>(),
+      removeMovie: getIt<RemoveMovieUseCase>(),
     ),
   );
   
   getIt.registerFactory(
-    () => SearchBloc(searchMovies: getIt<SearchMovies>()),
+    () => SearchBloc(searchMovies: getIt<SearchMoviesUseCase>()),
   );
 }

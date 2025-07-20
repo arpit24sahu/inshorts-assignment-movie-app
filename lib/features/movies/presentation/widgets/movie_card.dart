@@ -26,7 +26,6 @@ class MovieCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Movie Poster
             Expanded(
               flex: 4,
               child: ClipRRect(
@@ -56,8 +55,7 @@ class MovieCard extends StatelessWidget {
                       ),
               ),
             ),
-            
-            // Movie Info
+
             Expanded(
               flex: 2,
               child: Padding(
